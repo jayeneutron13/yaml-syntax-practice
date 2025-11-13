@@ -22,8 +22,6 @@ env:
 # Jobs section 
 jobs: 
   # First job: build 
- 
- 
   build: 
     # Runner configuration 
     runs-on: ubuntu-latest 
