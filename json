@@ -1,0 +1,27 @@
+{
+  "name": "CI",
+  "on": ["push"],
+  "jobs": {
+    "build": {
+      "runs-on": "ubuntu-latest",
+      "env": {
+        "DEPLOY_ENABLED": "true"
+      },
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Build",
+          "run": "echo 'Building the project...'"
+        },
+        {
+          "name": "Deploy",
+          "if": "env.DEPLOY_ENABLED == 'true'",
+          "run": "echo 'Deploying the project...'"
+        }
+      ]
+    }
+  }
+}
