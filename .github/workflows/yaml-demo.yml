@@ -1,0 +1,84 @@
+# Complete GitHub Actions Workflow 
+# Demonstrates all YAML syntax concepts 
+  
+# Workflow name (key-value pair) 
+name: Complete YAML Demo 
+  
+# Triggers (list of events) 
+on: 
+  push: 
+    branches: 
+      - main 
+      - develop 
+  pull_request: 
+  workflow_dispatch: 
+  
+# Environment variables (nested key-value pairs) 
+env: 
+  NODE_VERSION: 18 
+  DEPLOY_ENABLED: true 
+  MAX_RETRIES: 3 
+  
+# Jobs section 
+jobs: 
+  # First job: build 
+ 
+ 
+  build: 
+    # Runner configuration 
+    runs-on: ubuntu-latest 
+     
+    # Timeout (number) 
+    timeout-minutes: 30 
+     
+    # Continue on error (boolean) 
+    continue-on-error: false 
+     
+    # Steps (list of actions) 
+    steps: 
+      # Step 1: Checkout code 
+      - name: Checkout Repository 
+        uses: actions/checkout@v3 
+       
+      # Step 2: Setup Node.js 
+      - name: Setup Node.js 
+        uses: actions/setup-node@v3 
+        with: 
+          node-version: ${{ env.NODE_VERSION }} 
+       
+      # Step 3: Install dependencies 
+      - name: Install Dependencies 
+        run: npm install 
+       
+      # Step 4: Run multi-line script 
+      - name: Build and Test 
+        run: | 
+          echo "Starting build process..." 
+          npm run build 
+          npm test 
+          echo "Build complete!" 
+       
+      # Step 5: Display summary 
+      - name: Display Summary 
+        run: | 
+          echo "Build Summary:" 
+          echo "==============" 
+          echo "Node Version: ${{ env.NODE_VERSION }}" 
+          echo "Deploy Enabled: ${{ env.DEPLOY_ENABLED }}" 
+          echo "Max Retries: ${{ env.MAX_RETRIES }}" 
+   
+  # Second job: deploy 
+  deploy: 
+    # Job dependency 
+    needs: build 
+     
+ 
+ 
+    # Conditional execution 
+    if: env.DEPLOY_ENABLED == 'true' 
+     
+    runs-on: ubuntu-latest 
+     
+    steps: 
+      - name: Deploy Application 
+        run: echo "Deploying application..." 
