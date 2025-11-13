@@ -75,10 +75,13 @@ jobs:
  
  
     # Conditional execution 
-    if: vars.DEPLOY_ENABLED == 'true' 
-     
-    runs-on: ubuntu-latest 
-     
-    steps: 
-      - name: Deploy Application 
-        run: echo "Deploying application..." 
+   name: CI
+
+jobs:
+  build:
+    if: env.DEPLOY_ENABLED == 'true'  # ✅ valid here
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENABLED: true
+    steps:
+      - run: echo "Building..." 
