@@ -75,7 +75,7 @@ jobs:
  
  
     # Conditional execution 
-    if: env.DEPLOY_ENABLED == 'true' 
+    if: vars.DEPLOY_ENABLED == 'true' 
      
     runs-on: ubuntu-latest 
      
